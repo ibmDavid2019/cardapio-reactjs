@@ -83,7 +83,20 @@ function App() {
       setAddressWarning(true);
       return;
     }
-    alert(`Pedido finalizado!\nEndereço: ${address}\nTotal: R$ ${calculateTotal().toFixed(2)}`);
+
+    if (cart.length === 0) return;
+
+    let total = 0;
+    const cartItems = cart.map((item) => {
+      total += item.price * item.quantity;
+      return ` ${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price.toFixed(2)} |`;
+    }).join("");
+
+    const message = encodeURIComponent(`${cartItems} Valor Total: R$ ${total.toFixed(2)} | Endereço: ${address}`);
+    const phone = "5547988846053"; // Adicionado 55 (Brasil) na frente por segurança
+
+    window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
+
     setCart([]);
     setAddress("");
     setShowModal(false);
