@@ -1,0 +1,21 @@
+.App {
+  text-align: center;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.add-to-cart-btn {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.8;
+}
+
+footer {
+  cursor: pointer;
+}
+
