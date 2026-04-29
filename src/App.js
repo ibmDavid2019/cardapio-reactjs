@@ -45,6 +45,30 @@ const drinks = [
     name: "Guaraná lata",
     image: "/assets/refri-2.png",
     price: 6
+  },
+  {
+    id: 7,
+    name: "Água da Serra",
+    image: "/assets/agua da serra.png",
+    price: 3.50
+  },
+  {
+    id: 8,
+    name: "Refrigerante 2L",
+    image: "/assets/coca-cola.png",
+    price: 9.90
+  },
+  {
+    id: 9,
+    name: "Cerveja Heineken",
+    image: "/assets/heineken.jpg",
+    price: 12.50
+  },
+  {
+    id: 10,
+    name: "Cerveja Budweiser",
+    image: "/assets/cerveja bud.png",
+    price: 11.50
   }
 ];
 
@@ -79,6 +103,20 @@ function App() {
   };
 
   const handleCheckout = () => {
+    const now = new Date();
+    const hour = now.getHours();
+    if (hour < 18 || hour >= 22) {
+      Toastify({
+        text: "O estabelecimento esta fechado",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "red",
+      }).showToast();
+      return;
+    }
+
     if (!address.trim()) {
       setAddressWarning(true);
       return;
@@ -104,6 +142,10 @@ function App() {
 
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
+  const now = new Date();
+  const hour = now.getHours();
+  const isOpen = hour >= 18 && hour < 22;
+
   return (
     <div className="App">
       {/* HEADER */}
@@ -117,8 +159,8 @@ function App() {
           <h1 className="text-4xl mt-4 mb-2 font-bold text-white">Dev Burguer</h1>
           <span className="text-white font-medium">Rua dev 10, Joinville - SC</span>
           
-          <div className="bg-green-600 px-4 py-1 rounded-lg mt-5">
-            <span className="text-white font-medium">Terça - 15:00 as 22:00</span>
+          <div className={`bg-${isOpen ? 'green' : 'red'}-600 px-4 py-1 rounded-lg mt-5`}>
+            <span className="text-white font-medium">Segunda a Domingo - 18:00 às 22:00</span>
           </div>
         </div>
       </header>
@@ -220,7 +262,22 @@ function App() {
       {/* FOOTER CART BUTTON */}
       <footer className="w-full bg-red-500 py-3 fixed bottom-0 z-40 flex items-center justify-center">
         <button 
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            const now = new Date();
+            const hour = now.getHours();
+            if (hour < 18 || hour >= 22) {
+              Toastify({
+                text: "O estabelecimento esta fechado",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "red",
+              }).showToast();
+              return;
+            }
+            setShowModal(true);
+          }}
           className="flex items-center gap-2 text-white font-bold"
         >        
           ({cartCount})
